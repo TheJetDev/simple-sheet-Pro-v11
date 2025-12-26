@@ -44,10 +44,10 @@
         .operator-group { display: flex; flex-direction: column; align-items: center; width: 32px; }
         .operator-control { font-size: 0.7em; background: #333; color: #fff; width: 100%; height: 20px; display: flex; justify-content: center; align-items: center; border-radius: 3px; cursor: pointer; }
         .operator-display { font-size: 1.6em; font-weight: bold; text-align: center; color: #000; height: 35px; line-height: 35px; width: 100%; }
-        .percent-toggle, .base-toggle { border: 2px solid #ccc; border-radius: 6px; width: 50px; height: 50px; display: flex; justify-content: center; align-items: center; cursor: pointer; font-weight: bold; background: #fff; font-size: 1.3em; flex-shrink: 0; color: #000; user-select: none; }
+        .percent-toggle, .base-toggle { border: 2px solid #ccc; border-radius: 6px; width: 50px; height: 50px; display: flex; justify-content: center; align-items: center; cursor: pointer; font-weight: bold; background: #fff; font-size: 1.3em; flex-shrink: 0; color: #000; }
         .percent-toggle.active { background: #dc3545; color: #fff; border-color: #dc3545; }
         .base-toggle.chain { background: #007bff; color: #fff; border-color: #007bff; }
-        .action-btn { border: none; background: none; cursor: pointer; font-size: 1.8em; opacity: 0.7; padding: 5px; }
+        .action-btn { border: none; background: none; cursor: pointer; font-size: 1.8em; opacity: 0.7; }
         .master-row { padding: 12px; margin-bottom: 12px; border: 3px solid #dc3545; border-radius: 10px; background-color: #fff; display: flex; align-items: center; justify-content: space-between; }
         .master-input { width: 45%; padding: 8px; border: 2px solid #dc3545; border-radius: 6px; font-size: 1.5em; text-align: right; font-weight: bold; color: #000; outline: none; }
         .storage-bar { background: #dee2e6; border: 2px solid #666; border-radius: 10px; padding: 10px; margin-bottom: 12px; display: flex; flex-direction: column; gap: 8px; }
@@ -67,24 +67,23 @@
         .calc-btn.op { background: #f39c12; }
         .calc-btn.equal { background: #27ae60; grid-column: span 2; }
         .calc-btn.clear { background: #c0392b; }
-        .mode-button { flex: 1; padding: 12px 8px; border: none; background: #ddd; border-radius: 8px; cursor: pointer; font-weight: bold; display: flex; flex-direction: column; align-items: center; min-height: 85px; color: #000; transition: 0.2s; }
+        .mode-button { flex: 1; padding: 12px 8px; border: none; background: #ddd; border-radius: 8px; cursor: pointer; font-weight: bold; display: flex; flex-direction: column; align-items: center; min-height: 85px; color: #000; }
         .mode-button.active { background-color: #007bff; color: white; }
         .mode-desc { font-size: 0.7em; margin-top: 6px; opacity: 0.9; font-weight: normal; line-height: 1.3; text-align: center; }
         .util-btn { border: none; background: #6c757d; color: white; padding: 8px 10px; border-radius: 6px; cursor: pointer; font-size: 0.85em; font-weight: bold; }
-        #saveMessage { position: fixed; top: 15px; left: 50%; transform: translateX(-50%); background: #000; color: #fff; padding: 12px 25px; border-radius: 25px; opacity: 0; transition: opacity 0.3s; z-index: 2000; pointer-events: none; font-weight: bold; box-shadow: 0 4px 15px rgba(0,0,0,0.2); }
-        .calc-toggle-btn { display: none; position: fixed; bottom: 15px; right: 15px; width: 60px; height: 60px; border-radius: 50%; background: #333; color: white; border: none; font-size: 28px; box-shadow: 0 4px 12px rgba(0,0,0,0.3); z-index: 1001; }
-
+        #saveMessage { position: fixed; top: 15px; left: 50%; transform: translateX(-50%); background: #000; color: #fff; padding: 10px 20px; border-radius: 25px; opacity: 0; transition: opacity 0.3s; z-index: 2000; pointer-events: none; font-weight: bold; }
+        
         @media screen and (max-width: 900px) {
-            .side-calc { display: none; position: fixed; bottom: 80px; right: 15px; z-index: 1000; width: 280px; box-shadow: 0 0 20px rgba(0,0,0,0.5); }
+            .side-calc { display: none; position: fixed; bottom: 80px; right: 15px; z-index: 1000; width: 280px; }
             .side-calc.active { display: block; }
-            .calc-toggle-btn { display: block; }
+            .calc-toggle-btn { display: block !important; position: fixed; bottom: 15px; right: 15px; width: 60px; height: 60px; border-radius: 50%; background: #333; color: white; border: none; font-size: 28px; z-index: 1001; }
         }
     </style>
 </head>
 <body onload="init()">
 
     <div id="saveMessage"></div>
-    <button class="calc-toggle-btn" onclick="toggleCalc()">🧮</button>
+    <button class="calc-toggle-btn" style="display:none;" onclick="toggleCalc()">🧮</button>
 
     <div class="app-grid">
         <div class="calculator-container">
@@ -114,7 +113,7 @@
             </div>
 
             <div class="mode-toggle" style="display:flex; gap:8px; margin-bottom:12px;">
-                <button id="smartSheetBtn" class="mode-button active" onclick="switchMode('smartSheet')">
+                <button id="smartSheetBtn" class="mode-button" onclick="switchMode('smartSheet')">
                     <span id="txtModeBase">From Base</span>
                     <span id="descModeBase" class="mode-desc"></span>
                 </button>
@@ -189,7 +188,7 @@
             fr: { title: "Simple Sheet PRO", modeBase: "Depuis Base", descBase: "Référence fixe : chaque ligne se réfère à la valeur initiale du haut", modePrev: "Flux", descPrev: "Évalué de haut en bas. Choisissez 🏠 ou 🔗 pour chaque ligne.", masterLabelName: "Nom :", masterLabelStart: "Valeur de base", rowLabel: "Libellé", copyMsg: "Copié !", btnClear: "Effacer", btnExport: "Export", btnImport: "Import", btnReset: "Reset", confirmReset: "Tout réinitialiser ?", addRow: "+ Ligne", copyAll: "Tout copier", calcTitle: "Calculatrice", btnSave: "Enregistrer", msgSave: "Enregistré", msgLoad: "Chargé", confirmDel: "Supprimer?", btnEdit: "Modifier", btnDone: "Terminé" },
             pt: { title: "Simple Sheet PRO", modeBase: "Da Base", descBase: "Referência fixa: cada linha refere-se ao valor inicial no topo", modePrev: "Fluxo", descPrev: "Avaliado de cima para baixo. Escolha 🏠 ou 🔗 para cada linha.", masterLabelName: "Nome:", masterLabelStart: "Valor Base", rowLabel: "Rótulo", copyMsg: "Copiado!", btnClear: "Limpiar", btnExport: "Exportar", btnImport: "Importar", btnReset: "Reset", confirmReset: "Reiniciar tudo?", addRow: "+ Linha", copyAll: "Copiar tudo", calcTitle: "Calculadora", btnSave: "Salvar", msgSave: "Salvo", msgLoad: "Carregado", confirmDel: "Excluir?", btnEdit: "Editar", btnDone: "Concluir" },
             de: { title: "Simple Sheet PRO", modeBase: "Vom Basiswert", descBase: "Feste Referenz: Jede Zeile bezieht sich auf den obersten Basiswert", modePrev: "Flow", descPrev: "Berechnung von oben nach unten. Wählen Sie 🏠 oder 🔗 für jede Zeile.", masterLabelName: "Name:", masterLabelStart: "Basiswert", rowLabel: "Bezeichnung", copyMsg: "Kopiert!", btnClear: "Löschen", btnExport: "Export", btnImport: "Import", btnReset: "Reset", confirmReset: "Alles zurücksetzen?", addRow: "+ Zeile", copyAll: "Alles kopieren", calcTitle: "Rechner", btnSave: "Speichern", msgSave: "Gespeichert", msgLoad: "Geladen", confirmDel: "Löschen?", btnEdit: "Bearbeiten", btnDone: "Fertig" },
-            it: { title: "Simple Sheet PRO", modeBase: "Dalla Base", descBase: "Riferimento fisso: ogni riga si riferisce al valore iniziale in alto", modePrev: "Flusso", descPrev: "Valutato dall'alto verso il basso. Scegli 🏠 o 🔗 per ogni riga.", masterLabelName: "Name:", masterLabelStart: "Valore Base", rowLabel: "Etichetta", copyMsg: "Copiado!", btnClear: "Cancella", btnExport: "Esporta", btnImport: "Importa", btnReset: "Reset", confirmReset: "Ripristinare tutto?", addRow: "+ Riga", copyAll: "Copia tutto", calcTitle: "Calcolatrice", btnSave: "Salva", msgSave: "Salvato", msgLoad: "Carricato", confirmDel: "Elimina?", btnEdit: "Modifica", btnDone: "Fatto" }
+            it: { title: "Simple Sheet PRO", modeBase: "Dalla Base", descBase: "Riferimento fisso: ogni riga si riferisce al valore iniziale in alto", modePrev: "Flusso", descPrev: "Valutato dall'alto verso il basso. Scegli 🏠 o 🔗 per ogni riga.", masterLabelName: "Name:", masterLabelStart: "Valore Base", rowLabel: "Etichetta", copyMsg: "Copiado!", btnClear: "Cancella", btnExport: "Esporta", btnImport: "Importa", btnReset: "Reset", confirmReset: "Ripristinare tutto?", addRow: "+ Riga", copyAll: "Copia tutto", calcTitle: "Calcolatrice", btnSave: "Salva", msgSave: "Salvato", msgLoad: "Caricato", confirmDel: "Elimina?", btnEdit: "Modifica", btnDone: "Fatto" }
         };
 
         let currentLanguage = 'ja'; 
@@ -237,11 +236,11 @@
             const editBtn = document.getElementById('editToggle');
             editBtn.textContent = isEditMode ? (d.btnDone + ' ✓') : (d.btnEdit + ' ✎');
             
-            // 全ての行のプレースホルダーを更新
-            document.querySelectorAll('.text-label-input').forEach(input => {
-                input.placeholder = d.rowLabel;
+            // 各行のラベルのプレースホルダーを更新
+            document.querySelectorAll('.text-label-input').forEach(el => {
+                el.placeholder = d.rowLabel;
             });
-
+            
             updateDisplay();
         }
 
